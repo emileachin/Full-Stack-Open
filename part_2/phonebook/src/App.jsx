@@ -3,15 +3,33 @@ import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
 import Persons from "./components/Persons"
 import phonebookService from './services/phonebook'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNumber] = useState('')
   const [filter, setFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState([
+    { 
+      message: 'no error has occured',
+      error: true
+     }
+  ])
 
   useEffect(() => {
     phonebookService.get().then(fullList => setPersons(fullList))
+    .catch((error) => {
+      console.log(error)
+      setErrorMessage({
+        message: `People could not be obtained`,
+        error: false,
+      })
+
+      setTimeout(() => {
+        setErrorMessage({ message: null, error: false })
+      }, 5000)
+    })
   },[])
 
   const nameChange = (event) => {
@@ -30,7 +48,23 @@ const App = () => {
     {
       //delete note from server with provided id from persons component
       //then filter out the deleted note from the persons state/array to display and log properly
-      phonebookService.destroy(id).then(() => setPersons(persons.filter(person => person.id !== id)))
+      phonebookService.destroy(id).then(() => {
+          setPersons(persons.filter((person) => person.id !== id))
+          setErrorMessage({
+            message: `Delete ${name}`,
+          })
+        })
+        .catch((error) => {
+          setErrorMessage({
+            message: `Information of ${name} has already been removed from server`,
+            ErrorEvent: true,
+          })
+        })
+        .finally(() => {
+          setTimeout(() => {
+            setMessage({ message: null, error: false })
+          }, 5000)
+        })
     }
   }
 
@@ -49,35 +83,69 @@ const App = () => {
       //variable to log object of the changed person with the same properties except the number
         const changedPerson = { ...existingPerson, number: newNumber }
         //update backend with new number
-        phonebookService.update(changedPerson.id, changedPerson)
-        .then(returnedPerson => {
-          //then set persons state/array to display new number, mapping through the array to replace the changed contact
-          setPersons(persons.map(person => person.id !== changedPerson.id ? person : returnedPerson))
-          //set input fields clear preparing for next input
-          setNewName('')
-          setNumber('')
-        })
-    }
-    }
-    else {
-      //if name doesn't exist, user can create new contact in phonebook
+        phonebookService.update(changedPerson.id, changedPerson).then((returnedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== existingPerson.id ? person : returnedPerson
+              )
+            )
+            setErrorMessage({
+              message: `Update ${returnedPerson.name}`,
+            })
+          })
+          .catch((error) => {
+            console.log(error)
+            setErrorMessage({
+              message: `Information of ${newName} has already been removed from server`,
+              error: true,
+            })
+            setPersons(persons.filter((p) => p.id !== existingPerson.id))
+          })
+          .finally(() => {
+            setTimeout(() => {
+              setMessage({ message: null, error: false })
+            }, 5000)
+          })
+      }
+    } else {
       const nameObject = {
         name: newName,
-        number: newNumber
-      } 
+        number: newNumber,
+      }
 
-      //create new contact in backend by posting new object then concatting it to persons array
-      phonebookService.create(nameObject).then(newPerson => setPersons(persons.concat(newPerson)))
+      phonebookService
+        .create(nameObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson))
+          setErrorMessage({
+            message: `Added ${returnedPerson.name}`,
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+          setErrorMessage({
+            message: `Could not be added ${newName}`,
+            error: true,
+          })
+        })
+        .finally(() => {
+          setTimeout(() => {
+            setErrorMessage({ message: null, error: false })
+          }, 5000)
+        })
+    }
+
       //set input fields clear preparing for next input
       setNewName('')
       setNumber('')
+    
     }
-  }
 
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={errorMessage.message} isError={errorMessage.error} />
       <Filter filter={filter} checkFilter={checkFilter} />
       <form onSubmit={submitName}>
         <h2>add a new</h2>
