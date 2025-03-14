@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import Filter from "./components/Filter"
 import PersonForm from "./components/PersonForm"
 import Persons from "./components/Persons"
-import axios from 'axios'
+import phonebookService from './services/phonebook'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -11,11 +11,8 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:3001/persons").then(response => {
-      const phonebook = response.data
-      setPersons(phonebook)
-    })
-  }, [])
+    phonebookService.get().then(fullList => setPersons(fullList))
+  },[])
 
   const nameChange = (event) => {
     setNewName(event.target.value)
@@ -27,12 +24,15 @@ const App = () => {
 
   const personsToShow = filter === '' ? persons : persons.filter(person =>
     person.name.toLowerCase().includes(filter.toLowerCase()))
-
-
-  const rowNames = () => personsToShow.map(person => 
-  <p key={person.name}>{person.name} {person.number}</p>
-  )
   
+  const deletePerson = (id, name) => { //get id and name from persons array map in persons component button
+    if (window.confirm(`Delete ${name}?`)) //confirm to delete name from program
+    {
+      //delete note from server with provided id from persons component
+      //then filter out the deleted note from the persons state/array to display and log properly
+      phonebookService.destroy(id).then(() => setPersons(persons.filter(person => person.id !== id)))
+    }
+  }
 
   const numberAdd = (event) => {
     setNumber(event.target.value)
@@ -40,23 +40,40 @@ const App = () => {
 
   const submitName = (event) => {
     event.preventDefault()
+    const existingPerson = persons.find(person => person.name === newName) //check if name already exists in persons array
 
-    persons.map(person => 
-      {if (person.name.includes(newName)) {
-        alert(`${newName} is already added to phonebook`)
-        return
-      }
-      else {
-        const nameObject = {
-          name: newName,
-          number: newNumber,
-          id: persons.length + 1
-        }
-        setPersons(persons.concat(nameObject))
-      }
-    })
-    
+    if (existingPerson) { //if name exists/truthy
+      //window confirm with user that name exists and confirm if they wish to replace it
+      if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) 
+      {
+      //variable to log object of the changed person with the same properties except the number
+        const changedPerson = { ...existingPerson, number: newNumber }
+        //update backend with new number
+        phonebookService.update(changedPerson.id, changedPerson)
+        .then(returnedPerson => {
+          //then set persons state/array to display new number, mapping through the array to replace the changed contact
+          setPersons(persons.map(person => person.id !== changedPerson.id ? person : returnedPerson))
+          //set input fields clear preparing for next input
+          setNewName('')
+          setNumber('')
+        })
+    }
+    }
+    else {
+      //if name doesn't exist, user can create new contact in phonebook
+      const nameObject = {
+        name: newName,
+        number: newNumber
+      } 
+
+      //create new contact in backend by posting new object then concatting it to persons array
+      phonebookService.create(nameObject).then(newPerson => setPersons(persons.concat(newPerson)))
+      //set input fields clear preparing for next input
+      setNewName('')
+      setNumber('')
+    }
   }
+
 
   return (
     <div>
@@ -67,7 +84,7 @@ const App = () => {
         <PersonForm newName={newName} nameChange={nameChange} newNumber={newNumber} numberAdd={numberAdd} />
       </form>
       <h2>Numbers</h2>
-         <Persons rowNames={rowNames()} />
+         <Persons persons={personsToShow} deletePerson={deletePerson} />
     </div>
   )
 }
