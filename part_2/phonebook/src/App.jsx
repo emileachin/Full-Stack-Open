@@ -93,13 +93,12 @@ const App = () => {
               message: `Update ${returnedPerson.name}`,
             })
           })
-          .catch((error) => {
-            console.log(error)
+          .catch((error) => {//if error occurs updated name list hasn't rendered to front-end or an error occured that shows a deleted name (deleted from backend)
             setErrorMessage({
               message: `Information of ${newName} has already been removed from server`,
               error: true,
             })
-            setPersons(persons.filter((p) => p.id !== existingPerson.id))
+            setPersons(persons.filter(person => person.id !== existingPerson.id)) //filter out name from persons array
           })
           .finally(() => {
             setTimeout(() => {
@@ -122,7 +121,6 @@ const App = () => {
           })
         })
         .catch((error) => {
-          console.log(error)
           setErrorMessage({
             message: `Could not be added ${newName}`,
             error: true,
@@ -138,9 +136,7 @@ const App = () => {
       //set input fields clear preparing for next input
       setNewName('')
       setNumber('')
-    
     }
-
 
   return (
     <div>
