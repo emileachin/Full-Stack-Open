@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
 
-const name = process.argv[3]
-const number = process.argv[4]
-
 const url = process.env.MONGODB_URI
 
 mongoose.set('strictQuery',false)
@@ -15,10 +12,24 @@ mongoose.connect(url).then(result => {
     console.log("Error connecting to MongoDB: ", error.message)
 })
 
+
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String
-})
+    name: {
+      type: String,
+      minLength: 3,
+      required: true
+    },
+    number: {
+      type: String,
+      minLength: 8,
+      required: true,
+      validate: {
+        validator: function (n) {
+          return /\d{2,3}-\d{5,}/.test(n)
+        },
+      },
+    },
+  })
 
 personSchema.set('toJSON', {
     transform: (document, returnedObject) => {

@@ -17,12 +17,12 @@ const requestLogger = (request, response, next) => {
 }
   
 const errorHandler = (error, request, response, next) => {
-    console.error(error.message)
-  
+    
     if (error.name === 'CastError') {
       return response.status(400).send({ error: 'malformatted id' })
-    } 
-  
+    }
+    else if (error.name === 'ValidationError' || error.name === 'ValidatorError') {return response.status(400).json({error: error.message})}
+   
     next(error)
 }
   
@@ -82,7 +82,7 @@ const generateId = () => {
     return String(id)
 }
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     const body = request.body
 
     if(!body.name ) {
@@ -105,7 +105,7 @@ app.post('/api/persons', (request, response) => {
 
     person.save().then(person => {
         response.json(person)
-    })
+    }).catch(error => next(error))
 })
 
 const unknownEndpoint = (request, response) => {
