@@ -13,7 +13,7 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState([
     { 
       message: 'no error has occured',
-      error: true
+      error: false
      }
   ])
 
@@ -23,7 +23,7 @@ const App = () => {
       console.log(error)
       setErrorMessage({
         message: `People could not be obtained`,
-        error: false,
+        error: true,
       })
 
       setTimeout(() => {
@@ -57,7 +57,7 @@ const App = () => {
         .catch((error) => {
           setErrorMessage({
             message: `Information of ${name} has already been removed from server`,
-            ErrorEvent: true,
+            error: true,
           })
         })
         .finally(() => {
@@ -122,7 +122,7 @@ const App = () => {
         })
         .catch((error) => {
           setErrorMessage({
-            message: `Could not be added ${newName}`,
+            message: error.response.data.error,
             error: true,
           })
         })

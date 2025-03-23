@@ -1,5 +1,5 @@
 const Notification = props => {
-    if (props.message === null) {
+    if (!props.message) {
         return null
     }
 
