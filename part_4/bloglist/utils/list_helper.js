@@ -36,6 +36,7 @@ const mostBlogs = blogs => {
 
 const mostLikes = blogs => {
   const allAuthors = lodash.groupBy(blogs, 'author')
+  //lodash takes values then keys (callback of map)
   const likes = lodash.map(allAuthors, (blogs, author) => {
     return {
       author: author,
