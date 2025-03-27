@@ -1,4 +1,9 @@
+const supertest = require('supertest')
+const app = require('../app')
+const api = supertest(app)
+
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const initialBlogs = [
     {
@@ -22,4 +27,24 @@ const initialBlogs = [
     return blogs.map(blog => blog.toJSON())
   }
 
-module.exports = { initialBlogs, blogsinDB }
+  const usersInDb = async () => {
+    const users = await User.find({})
+    return users.map((user) => user.toJSON())
+  }
+
+  const loginUser = async () => {
+    const newUser = {
+      username: 'leamia',
+      name: 'Lea Mia',
+      password: 'leamia123',
+    }
+  
+    await api.post('/api/users').send(newUser)
+    const result = await api.post('/api/login').send({
+      username: 'leamia',
+      password: 'leamia123',
+    })
+    return `Bearer ${result.body.token}`
+  }
+
+module.exports = { initialBlogs, blogsinDB, loginUser, usersInDb }
