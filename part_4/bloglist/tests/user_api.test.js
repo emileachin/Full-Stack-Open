@@ -74,7 +74,7 @@ describe('users', () => {
 
   test.only('same username can not be added twice' , async () => {
     const newUser = {
-      username: "root",
+      username: "newuser",
       name: "New User",
       password: "password"
     }
