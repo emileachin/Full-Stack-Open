@@ -4,12 +4,10 @@ import blogService from './services/blogs'
 import BlogForm from './components/BlogForm'
 import loginService from './services/login'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const [message, setMessage] = useState({
     message: null,
     error: false,
@@ -30,6 +28,8 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -59,32 +59,29 @@ const App = () => {
     }
   }
 
-  const addBlog = async (event) => {
-    try {
-      event.preventDefault()
-
-    const blogObject = {
-      title, author, url
-    }
-
+  const addBlog = async (blogObject) => {
     const returnedBlog = await blogService.create(blogObject)
-
     setBlogs(blogs.concat(returnedBlog))
-    setTitle('')
-    setAuthor('')
-    setUrl('')
 
     setMessage({message: `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`, error: false})
     setTimeout(() => {
       setMessage({message: null, error: false})
     }, 5000)
   }
-  catch (error) {
-    setMessage({message: `error adding blog`, error: true})
+
+  const updateLikes = async (blogObject) => {
+    const id = blogObject.id
+    const updatedBlog = await blogService.update(id, blogObject)
+    setBlogs(blogs.map(blog => blog.id === updatedBlog.id ? updatedBlog : blog))
+    setMessage({message: `you liked ${updatedBlog.title} by ${updatedBlog.author}`, error: false})
     setTimeout(() => {
       setMessage({message: null, error: false})
     }, 5000)
   }
+
+  const removedBlog = async (id) => {
+    await blogService.remove(id)
+    setBlogs(blogs.filter(blog => blog.id !== id))
   }
 
   const loginForm = () => (
@@ -115,10 +112,7 @@ const App = () => {
 
   const logout = () => {
     window.localStorage.removeItem("loggedBlogappuser")
-     setUser(null)
-  setTitle('')
-  setAuthor('')
-  setUrl('')
+    setUser(null)
   }
 
   return (
@@ -127,16 +121,11 @@ const App = () => {
       <p>{user?.name} logged in</p>
       <button type="submit" onClick={logout}>Logout</button>
       <h2>blogs</h2>
-      <BlogForm
-        addBlog={addBlog}
-        title={title}
-        setTitle={setTitle}
-        author={author}
-        setAuthor={setAuthor}
-        url={url}
-        setUrl={setUrl} />
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+      <Togglable buttonLabel="new blog">
+        <BlogForm createBlog={addBlog} />
+        </Togglable>
+      {sortedBlogs.map(blog =>
+        <Blog key={blog.id} blog={blog} user={user} updateLikes={updateLikes} removedBlog={removedBlog}/>
       )}
     </div>
   )
