@@ -8,7 +8,7 @@ const BlogForm = ({ createBlog }) => {
   const addBlog = async (event) => {
     event.preventDefault()
 
-   createBlog({
+    createBlog({
       title, author, url
     })
 

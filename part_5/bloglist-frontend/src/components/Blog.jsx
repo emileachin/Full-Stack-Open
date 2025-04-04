@@ -24,7 +24,7 @@ const Blog = ({ blog, user, updateLikes, removedBlog }) => {
 
     updateLikes(updatedBlog)
   }
-  
+
   const removeBlog = async () => {
     const id = blog.id
 
@@ -35,24 +35,23 @@ const Blog = ({ blog, user, updateLikes, removedBlog }) => {
   }
 
   return (
-    <div style={blogStyle}>
-    {blog.title} {blog.author}
-    <div>
-      <button onClick={toggleVisibility}>{displayVisible ? "hide" : "view"}</button>
-    </div>
-  
-    {displayVisible && (
+    <div style={blogStyle} className='blog'>
+      {blog.title} {blog.author}
       <div>
-      <p>{blog.url}</p>
-      <p>likes: {blog.likes}</p> 
-      <button onClick={handleLikes}>like</button>
-      <p>{blog.user.name}</p>
-      {blog.user.name === user.name && (
-        <button onClick={removeBlog}>remove</button>
+        <button onClick={toggleVisibility}>{displayVisible ? 'hide' : 'view'}</button>
+      </div>
+      {displayVisible && (
+        <div>
+          <p>{blog.url}</p>
+          <p>likes: {blog.likes}</p>
+          <button onClick={handleLikes}>like</button>
+          <p>{blog.user.name}</p>
+          {blog.user.name === user.name && (
+            <button onClick={removeBlog}>remove</button>
+          )}
+        </div>
       )}
     </div>
-    )}
-  </div> 
   )
 }
 
