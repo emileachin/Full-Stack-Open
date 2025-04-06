@@ -86,6 +86,16 @@ const App = () => {
       })
   }
 
+  const logout = () => {
+    window.localStorage.removeItem("loggedBlogappuser")
+    setUser(null)
+  }
+
+  const removed = async (id) => {
+    await noteService.remove(id)
+    setNotes(notes.filter(blog => blog.id !== id))
+  }
+
   const notesToShow = showAll
     ? notes
     : notes.filter(note => note.important)
@@ -121,6 +131,7 @@ const App = () => {
       {!user && loginForm()}
       {user && <div>
        <p>{user.name} logged in</p>
+       <button onClick={logout}>log out</button>
        <Togglable buttonLabel='new note' ref={noteFormRef}>
         <NoteForm
           createNote={addNote}
@@ -138,7 +149,7 @@ const App = () => {
         {notesToShow.map(note => 
           <Note
             key={note.id}
-            note={note}
+            note={note} removed={removed}
             toggleImportance={() => toggleImportanceOf(note.id)}
           />
         )}
