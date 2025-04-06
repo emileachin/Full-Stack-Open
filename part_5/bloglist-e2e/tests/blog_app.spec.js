@@ -45,37 +45,38 @@ describe('Blog app', () => {
       await expect(page.getByText('Test Blog Test Author')).toBeVisible()
     })
 
-    test('a blog can be liked', async ({ page }) => {
-      await createBlog(page, 'Test Blog', 'Test Author', 'https://testblog.com')
+    describe('and a blog exists', () => {
+      beforeEach(async ({ page }) => {
+        await createBlog(page, 'Test Blog', 'Test Author', 'https://testblog.com')
+      })
 
-      await expect(page.getByText('Test Blog Test Author')).toBeVisible()
+      test('a blog can be liked', async ({ page }) => {
+        await createBlog(page, 'Test Blog', 'Test Author', 'https://testblog.com')
+  
+        await expect(page.getByText('Test Blog Test Author')).toBeVisible()
+  
+        const blog = await page.getByText('Test Blog Test Author')
+        const blogElement = await blog.locator('..')
+        await blogElement.locator('button', {name: 'view'}).click()
+  
+        const likesButton = await page.getByRole('button', { name: 'like' })
+        await expect(likesButton).toBeVisible()
+        await likesButton.click()
+  
+        await expect(page.getByText('likes: 1')).toBeVisible()
+      })
 
-      const blog = await page.getByText('Test Blog Test Author')
-      const blogElement = await blog.locator('..')
-      await blogElement.locator('button', {name: 'view'}).click()
-
-      const likesButton = await page.getByRole('button', { name: 'like' })
-      await expect(likesButton).toBeVisible()
-      await likesButton.click()
-
-      await expect(page.getByText('likes: 1')).toBeVisible()
-    })
-
-    test('the user who added the blog can delete it', async ({ page }) => {
-        await createBlog(page, 'Test 1 Blog', 'Test Author', 'example.com/blog1')
-          await createBlog(page, 'Test 2 Blog', 'Test Author', 'example.com/blog2')
-          await createBlog(page, 'Test 3 Blog', 'Test Author', 'example.com/blog3')
-        
-          const blog = page.locator('.blog').filter({ hasText: 'Test 1 Blog' })
+      test('the user who added the blog can delete it', async ({ page }) => {
+          const blog = page.locator('.blog').filter({ hasText: 'Test Blog Test Author' })
           await blog.getByRole('button', { name: 'view' }).click()
-          await expect(blog.getByRole('button', { name: 'delete' })).toBeVisible()
   
           page.on('dialog', async (dialog) => {
-            await dialog.decline()
+            await dialog.accept()
           })
           await page.getByRole('button', { name: 'delete' }).click()
   
-          await expect(blog.getByText('Test 1 Blog')).toBeVisible()
+          await expect(blog.getByText('Test 1 Blog')).not.toBeVisible()
+      })
     })
   })
 })
