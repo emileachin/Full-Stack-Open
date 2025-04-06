@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import loginForm from './components/LoginForm'
+import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import loginService from './services/login'
 import Notification from './components/Notification'
@@ -48,7 +48,7 @@ const App = () => {
       setPassword('')
       setMessage({message: `Welcome ${user.name}`, error: false})
       setTimeout(() => {
-        setMessage({message: null, error: false})
+        setMessage({ message: null, error: false })
       }, 5000)
     }
     catch (error) {
@@ -93,7 +93,8 @@ const App = () => {
       <div>
         <Notification message={message.message} error={message.error} />
         <h2>Log in to application</h2>
-        <LoginForm username={username} password={password}/>
+        <LoginForm username={username} password={password} handleLogin={handleLogin} setUsername={setUsername}
+        setPassword={setPassword}/>
       </div>
     )
   }
