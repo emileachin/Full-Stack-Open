@@ -1,5 +1,3 @@
-import { createStore } from 'redux'
-
 const noteReducer = (state = [], action) => {
   switch(action.type) {
     case 'NEW_NOTE':
@@ -19,8 +17,6 @@ const noteReducer = (state = [], action) => {
       return state
   }
 }
-
-const store = createStore(noteReducer)
 
 const generateId = () =>
   Number((Math.random() * 1000000).toFixed(0))
