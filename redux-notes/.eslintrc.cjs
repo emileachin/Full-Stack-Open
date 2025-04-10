@@ -1,6 +1,6 @@
 module.exports = {
     root: true,
-    env: { 
+    env: {
       browser: true,
       es2020: true,
       "jest/globals": true
