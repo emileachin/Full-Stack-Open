@@ -11,9 +11,214 @@
       "votes": 0
     },
     {
-      "content": "The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
-      "id": "69581",
-      "votes": 0
+      "data": {
+        "data": {
+          "data": {
+            "data": {
+              "data": {
+                "content": "The first 90 percent of the code accounts for the first 10 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.",
+                "id": "69581",
+                "votes": 0
+              },
+              "status": 200,
+              "statusText": "OK",
+              "headers": {
+                "content-length": "238",
+                "content-type": "application/json"
+              },
+              "config": {
+                "transitional": {
+                  "silentJSONParsing": true,
+                  "forcedJSONParsing": true,
+                  "clarifyTimeoutError": false
+                },
+                "adapter": [
+                  "xhr",
+                  "http",
+                  "fetch"
+                ],
+                "transformRequest": [
+                  null
+                ],
+                "transformResponse": [
+                  null
+                ],
+                "timeout": 0,
+                "xsrfCookieName": "XSRF-TOKEN",
+                "xsrfHeaderName": "X-XSRF-TOKEN",
+                "maxContentLength": -1,
+                "maxBodyLength": -1,
+                "env": {},
+                "headers": {
+                  "Accept": "application/json, text/plain, */*"
+                },
+                "method": "get",
+                "url": "http://localhost:3001/anecdotes/69581",
+                "allowAbsoluteUrls": true
+              },
+              "request": {},
+              "votes": null,
+              "id": "69581"
+            },
+            "status": 200,
+            "statusText": "OK",
+            "headers": {
+              "content-length": "1080",
+              "content-type": "application/json"
+            },
+            "config": {
+              "transitional": {
+                "silentJSONParsing": true,
+                "forcedJSONParsing": true,
+                "clarifyTimeoutError": false
+              },
+              "adapter": [
+                "xhr",
+                "http",
+                "fetch"
+              ],
+              "transformRequest": [
+                null
+              ],
+              "transformResponse": [
+                null
+              ],
+              "timeout": 0,
+              "xsrfCookieName": "XSRF-TOKEN",
+              "xsrfHeaderName": "X-XSRF-TOKEN",
+              "maxContentLength": -1,
+              "maxBodyLength": -1,
+              "env": {},
+              "headers": {
+                "Accept": "application/json, text/plain, */*"
+              },
+              "method": "get",
+              "url": "http://localhost:3001/anecdotes/69581",
+              "allowAbsoluteUrls": true
+            },
+            "request": {},
+            "votes": null,
+            "id": "69581"
+          },
+          "status": 200,
+          "statusText": "OK",
+          "headers": {
+            "content-length": "2005",
+            "content-type": "application/json"
+          },
+          "config": {
+            "transitional": {
+              "silentJSONParsing": true,
+              "forcedJSONParsing": true,
+              "clarifyTimeoutError": false
+            },
+            "adapter": [
+              "xhr",
+              "http",
+              "fetch"
+            ],
+            "transformRequest": [
+              null
+            ],
+            "transformResponse": [
+              null
+            ],
+            "timeout": 0,
+            "xsrfCookieName": "XSRF-TOKEN",
+            "xsrfHeaderName": "X-XSRF-TOKEN",
+            "maxContentLength": -1,
+            "maxBodyLength": -1,
+            "env": {},
+            "headers": {
+              "Accept": "application/json, text/plain, */*"
+            },
+            "method": "get",
+            "url": "http://localhost:3001/anecdotes/69581",
+            "allowAbsoluteUrls": true
+          },
+          "request": {},
+          "votes": null,
+          "id": "69581"
+        },
+        "status": 200,
+        "statusText": "OK",
+        "headers": {
+          "content-length": "3012",
+          "content-type": "application/json"
+        },
+        "config": {
+          "transitional": {
+            "silentJSONParsing": true,
+            "forcedJSONParsing": true,
+            "clarifyTimeoutError": false
+          },
+          "adapter": [
+            "xhr",
+            "http",
+            "fetch"
+          ],
+          "transformRequest": [
+            null
+          ],
+          "transformResponse": [
+            null
+          ],
+          "timeout": 0,
+          "xsrfCookieName": "XSRF-TOKEN",
+          "xsrfHeaderName": "X-XSRF-TOKEN",
+          "maxContentLength": -1,
+          "maxBodyLength": -1,
+          "env": {},
+          "headers": {
+            "Accept": "application/json, text/plain, */*"
+          },
+          "method": "get",
+          "url": "http://localhost:3001/anecdotes/69581",
+          "allowAbsoluteUrls": true
+        },
+        "request": {},
+        "votes": null,
+        "id": "69581"
+      },
+      "status": 200,
+      "statusText": "OK",
+      "headers": {
+        "content-length": "4101",
+        "content-type": "application/json"
+      },
+      "config": {
+        "transitional": {
+          "silentJSONParsing": true,
+          "forcedJSONParsing": true,
+          "clarifyTimeoutError": false
+        },
+        "adapter": [
+          "xhr",
+          "http",
+          "fetch"
+        ],
+        "transformRequest": [
+          null
+        ],
+        "transformResponse": [
+          null
+        ],
+        "timeout": 0,
+        "xsrfCookieName": "XSRF-TOKEN",
+        "xsrfHeaderName": "X-XSRF-TOKEN",
+        "maxContentLength": -1,
+        "maxBodyLength": -1,
+        "env": {},
+        "headers": {
+          "Accept": "application/json, text/plain, */*"
+        },
+        "method": "get",
+        "url": "http://localhost:3001/anecdotes/69581",
+        "allowAbsoluteUrls": true
+      },
+      "request": {},
+      "votes": null,
+      "id": "69581"
     },
     {
       "content": "Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",
