@@ -9,7 +9,8 @@ const notificationSlice = createSlice({
      }
    }
 })
-export const createNotification = (notif, secs = 5000) => {
+
+export const createNotification = (notif, secs) => {
   return async (dispatch) => {
     dispatch(setNotification(notif))
     setTimeout(() => {

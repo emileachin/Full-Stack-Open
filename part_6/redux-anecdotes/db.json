@@ -6,9 +6,50 @@
       "votes": 0
     },
     {
-      "content": "Adding manpower to a late software project makes it later!",
-      "id": "21149",
-      "votes": 0
+      "data": {
+        "content": "Adding manpower to a late software project makes it later!",
+        "id": "21149",
+        "votes": 0
+      },
+      "status": 200,
+      "statusText": "OK",
+      "headers": {
+        "content-length": "108",
+        "content-type": "application/json"
+      },
+      "config": {
+        "transitional": {
+          "silentJSONParsing": true,
+          "forcedJSONParsing": true,
+          "clarifyTimeoutError": false
+        },
+        "adapter": [
+          "xhr",
+          "http",
+          "fetch"
+        ],
+        "transformRequest": [
+          null
+        ],
+        "transformResponse": [
+          null
+        ],
+        "timeout": 0,
+        "xsrfCookieName": "XSRF-TOKEN",
+        "xsrfHeaderName": "X-XSRF-TOKEN",
+        "maxContentLength": -1,
+        "maxBodyLength": -1,
+        "env": {},
+        "headers": {
+          "Accept": "application/json, text/plain, */*"
+        },
+        "method": "get",
+        "url": "http://localhost:3001/anecdotes/21149",
+        "allowAbsoluteUrls": true
+      },
+      "request": {},
+      "votes": null,
+      "id": "21149"
     },
     {
       "data": {

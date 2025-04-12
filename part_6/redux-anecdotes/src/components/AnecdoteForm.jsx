@@ -12,7 +12,7 @@ const AnecdoteForm = () => {
    
    dispatch(createAnecdote(content))
 
-   dispatch(createNotification(`you created ${content}`))
+   dispatch(createNotification(`you created ${content}`, 500))
  }
 
 
