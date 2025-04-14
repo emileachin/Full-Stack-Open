@@ -19,6 +19,14 @@ const AnecdoteForm = () => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
+
+    if(content.length < 5) {
+      return notificationDispatch({
+        type: 'SET_NOTIFICATION',
+        payload: `Anecdote must be at least 5 characters long`,
+      })
+      
+    }
     newAnecdoteMutation.mutate({ content, votes: 0 })
     notificationDispatch({
       type: 'SET_NOTIFICATION',
